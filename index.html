@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+  <link rel="stylesheet" href="./css/style.css" />
+  <title>website scraping Module</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h1>website scraping Module</h1>
+    </nav>
+  </header>
+  <main id="mian_page">
+    <table>
+      <tr>
+        <th>published date</th>
+        <th>Article Title</th>
+        <th>article link</th>
+        <th>article description</th>
+        <th>article dom</th>
+      </tr>
+      <tr v-for="(article, article_ID) in myData" :key="article_ID">
+        <td>
+          <div class="td_div">{{article.published_date}}</div>
+        </td>
+        <td>
+          <div class="td_div">{{article.article_title}}</div>
+        </td>
+        <td>
+          <div class="td_div"><a :href="article.article_link" target="_blank">{{article.article_link}}</a></div>
+        </td>
+        <td>
+          <div class="td_div">{{article.article_description}}</div>
+        </td>
+        <td>
+          <div class="td_div">{{article.article_dom}}</div>
+        </td>
+      </tr>
+    </table>
+  </main>
+  <footer></footer>
+  <script>
+    new Vue({
+      el: "#mian_page",
+      data: {
+        myData: null,
+      },
+      methods: {
+        console_log() {
+          console.log(this.myData);
+        },
+      },
+      created() {
+        axios
+          .get("./data.json")
+          .then((response) => {
+            console.table(response.data);
+            this.myData = response.data;
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      },
+    });
+  </script>
+  <script src="./javaScript/index.js"></script>
+</body>
+
+</html>
